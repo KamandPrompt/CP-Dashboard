@@ -23,13 +23,15 @@ function Register() {
     }
     const registerHandler = async (e) => {
         e.preventDefault();
+        console.log("26",show);
         check1 = true;
+        console.log("Here 27");
         validate();
         if (check1) {
             const check = validateOTP();
             /* console.log(cfotp)
              console.log(instotp)*/
-            console.log(check)
+            console.log("33", check)
             if (check) {
                 const config = {
                     header: {
@@ -84,7 +86,7 @@ function Register() {
         }
     };
 
-    const Checkcf_handle = () => {
+    const Checkcf_handle = async () => {
         if (cf_handle == "") {
             setTimeout(() => {
                 ReactDOM.render("", document.getElementById("cf_handleE"));
@@ -93,46 +95,33 @@ function Register() {
             return false;
         }
         const url = "https://codeforces.com/api/user.info?handles=" + cf_handle;
-        var getJSON = function (url, callback) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'json';
-            xhr.onload = function () {
-                var status = xhr.status;
-                if (status === 200) {
-                    callback(null, xhr.response);
-                } else {
-                    callback(status, xhr.response);
-                }
-            };
-            xhr.send();
-        };
-        /*  */
-        getJSON(url, async function (err, data) {
-            if (err != null) {
-                setTimeout(() => {
-                    ReactDOM.render("", document.getElementById("cf_handleE"));
-                }, 5000); console.log(err);
-                ReactDOM.render("Invalid codeforces handle.", document.getElementById("cf_handleE"));
-                return false;
+        const req = await axios.get(url, { 
+            headers: {
+                Accept: "application/json",
             }
         });
+
+        const data = req.data;
+        if(data["status"]=="FAILED"){
+            ReactDOM.render("Invalid CF Handle", document.getElementById("cf_handleE"));
+            return false;
+        }
 
         fetch("/api/cf_handle_check", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({cf_handle:cf_handle}),
+            body: JSON.stringify({ cf_handle: cf_handle }),
         }).then(() => {
             setTimeout(() => {
                 ReactDOM.render("", document.getElementById("cf_handleE"));
             }, 5000);
-             ReactDOM.render("CF handle already in use.", document.getElementById("cf_handleE")); return false;
+            ReactDOM.render("CF handle already in use.", document.getElementById("cf_handleE")); return false;
         });
         return true;
     }
-    const ValidatecfEmail = () => {
+    const ValidatecfEmail = async () => {
         if (cf_email == "") {
             setTimeout(() => {
                 ReactDOM.render("", document.getElementById("cf_emailE"));
@@ -148,39 +137,30 @@ function Register() {
             return false;
         }
         const url = "https://codeforces.com/api/user.info?handles=" + cf_handle;
-        var getJSON = function (url, callback) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'json';
-            xhr.onload = function () {
-                var status = xhr.status;
-                if (status === 200) {
-                    callback(null, xhr.response);
-                } else {
-                    callback(status, xhr.response);
-                }
-            };
-            xhr.send();
-        };
-        getJSON(url, async function (err, data) {
-            if (data["result"][0]['email'] == null) {
-                setTimeout(() => {
-                    ReactDOM.render("", document.getElementById("cf_emailE"));
-                }, 5000);
-                ReactDOM.render("Make id visible in settings.", document.getElementById("cf_emailE"));
-                return false;
+        const req1 = await axios.get(url, {
+            headers: {
+                Accept: "application/json",
             }
-            if (data["result"][0]['email'] !== cf_email) {
-                setTimeout(() => {
-                    ReactDOM.render("", document.getElementById("cf_emailE"));
-                }, 5000);
-                ReactDOM.render("CF Handle doesn't refer to provided cf email.", document.getElementById("cf_emailE"));
-                return false;
-            }
-        })
+        });
+        const data = req1.data;
+        console.log(data["result"]);
+        if (data["result"][0]['email'] == null) {
+            setTimeout(() => {
+                ReactDOM.render("", document.getElementById("cf_emailE"));
+            }, 5000);
+            ReactDOM.render("Make id visible in settings.", document.getElementById("cf_emailE"));
+            return false;
+        }
+        if (data["result"][0]['email'] !== cf_email) {
+            setTimeout(() => {
+                ReactDOM.render("", document.getElementById("cf_emailE"));
+            }, 5000);
+            ReactDOM.render("CF Handle doesn't refer to provided cf email.", document.getElementById("cf_emailE"));
+            return false;
+        }
         return true;
     }
-    const CheckinstEmail = () => {
+    const CheckinstEmail = async () => {
         if (inst_email == "") {
             setTimeout(() => {
                 ReactDOM.render("", document.getElementById("inst_emailE"));
@@ -197,7 +177,7 @@ function Register() {
         }
         return true;
     }
-    const CheckPassword = () => {
+    const CheckPassword = async () => {
         if (password.length == 0) {
             setTimeout(() => {
                 ReactDOM.render("", document.getElementById("passwordE"));
@@ -216,12 +196,9 @@ function Register() {
         return true;
 
     }
-    const validate = () => {
+    const validate = async () => {
         if (!show) {
-            if (!Checkcf_handle()) { console.log("cfhandle"); check1 = false; }
-            if (!ValidatecfEmail()) { check1 = false; }
-            if (!CheckinstEmail()) { check1 = false; }
-            if (!CheckPassword()) { check1 = false; }
+            console.log("Here 201");
             if (password != confirmpassword) {
                 setTimeout(() => {
                     ReactDOM.render("", document.getElementById("c_passwordE"));
@@ -230,6 +207,15 @@ function Register() {
                 ReactDOM.render("Confirm password doesn't matches with password.", document.getElementById("c_passwordE"));
 
             }
+            let tp1 = await Checkcf_handle();
+            if (!tp1) { console.log("cfhandle"); check1 = false; return;}
+            tp1 = await ValidatecfEmail(); 
+            if (!tp1) { check1 = false; return;}
+            tp1 = await CheckinstEmail(); 
+            if (!tp1) { check1 = false; return;}
+            tp1 = await CheckPassword(); 
+            if (!tp1) { check1 = false; return;}
+            console.log("225 ", check1);
         }
         else {
             if (cfotp == "") {
@@ -251,7 +237,8 @@ function Register() {
 
     };
 
-    const validateOTP = () => {
+    const validateOTP = async () => {
+        console.log("Line 247");
         if (cfotp == otp1 && instotp == otp2 && instotp !== "" && cfotp != "") {
             console.log('true')
             sessionStorage.setItem("userName", cf_handle);
@@ -263,18 +250,17 @@ function Register() {
         ReactDOM.render("OTP's couldn't verify.", document.getElementById("otpE"));
         return false; //to be changed to false 
     };
-    const OTPgen = () => {
+    const OTPgen = async () => {
         check1 = true;
-        validate();
+        console.log("here 271 ", check1);
+        let waiting = await validate();
+        console.log("here 273 ", check1);
         if (check1) {
             setShow(true);
             otp1 = (Math.floor(900000 * Math.random()) + 100000).toString();
             otp2 = (Math.floor(900000 * Math.random()) + 100000).toString();
             console.log(otp1);
             console.log(otp2);
-            console.log(typeof otp1);
-            console.log(typeof cfotp);
-            //     console.log("email try1")
             let details1 = {
                 email: cf_email,
                 message: otp1,
@@ -291,14 +277,14 @@ function Register() {
             fetch("/api/send_email", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json;charset=utf-14",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(details1),
             });
             fetch("/api/send_email", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json;charset=utf-14",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(details2),
             });
@@ -319,6 +305,7 @@ function Register() {
             />
             <form onSubmit={registerHandler}>
                 {error && <span className="error-message">{error}</span>}
+                {/* For Registration*/}
                 {!show ? <div className="input-group">
                     <div id="user-text">CF-Handle</div>
                     <input
@@ -377,6 +364,9 @@ function Register() {
                     />
                 </div> : null}
                 <div id="c_passwordE" style={{ fontSize: 14, color: "white" }}></div>
+                {/* End for Registration */}
+
+                {/* For OTP */}
                 {show ? <div className="input-group">
                     <div id="cfotp-text-2">OTP sent on cf mail ID.</div>
                     <input
@@ -402,11 +392,13 @@ function Register() {
                 <div id="instotpE" style={{ fontSize: 14, color: "white" }}></div>
                 <div id="otpE" style={{ fontSize: 14, color: "white" }}></div>
                 <br />
+                {/* End for OTP */}
+
                 {!show ? <button
                     onClick={OTPgen}
                     id="signup"
                 >
-                    Register
+                Register
                 </button> : null}
                 {show ? <button
                     type="submit"
