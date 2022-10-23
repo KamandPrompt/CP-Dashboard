@@ -262,50 +262,52 @@ app.post('/api/register', async (req, res) => {
 	return res.json({ status: 'ok', token: '123' });
 })
 app.post('/api/cf_handle_check', async (req, res) => {
-	alert("check")
 	const cf_handle = req.body.cf_handle;
 	const user = await User.findOne({ cf_handle }).lean();
 	if (user) {
 		return res.json({ status: 'error', error: 'CF Handle already in use' });
-	}});
-// const otpEmail = nodemailer.createTransport({
-	// host: "smtp.gmail.com",
-	// port: 587,
-	// secure: false,
-	// requireTLS: true,
-	// auth: {
-	// 	user: "cp.dashboard.iitmandi@gmail.com",
-	// 	pass: "A@123456",
-	// },
-// });
+	}}
+);
 
-// otpEmail.verify((error) => {
-// 	if (error) {
-// 		console.log(error);
-// 	} else {
-// 		console.log("Ready to Send");
-// 	}
-// });
+const otpEmail = nodemailer.createTransport({
+	host: "smtp.gmail.com",
+	port: 587,
+	secure: false,
+	requireTLS: true,
+	auth: {
+		user: "cp.dashboard.pc@gmail.com",
+		pass: "mvtbdbzrdjnmizzt",
+	},
+});
+
+otpEmail.verify((error) => {
+	if (error) {
+		console.log(error);
+	} else {
+		console.log("Ready to Send");
+	}
+});
 app.post("/api/send_email", async (req, res) => {
 	const message = req.body.message;
 	const email = req.body.email;
 	const sub = req.body.sub;
 	//const email=req.body.email;
+	console.log(req.body);
 	const mail = {
 		from: "cp.dashboard.iitmandi@gmail.com",
 		to: email,
 		subject: sub,
 		html: `<p>${message}</p>`,
 	};
-	// otpEmail.sendMail(mail, (error) => {
-	// 	if (error) {
-	// 		console.log(error);
-	// 		res.json({ status: "ERROR" });
-	// 	} else {
-	// 		console.log("mail sent");
-	// 		res.json({ status: "Message Sent" });
-	// 	}
-	// });
+	otpEmail.sendMail(mail, (error) => {
+		if (error) {
+			console.log(error);
+			res.json({ status: "ERROR" });
+		} else {
+			console.log("mail sent");
+			res.json({ status: "Message Sent" });
+		}
+	});
 });
 app.get("/leaderboard", async (req, res) => {
 	const data = await User.find({}).lean();
