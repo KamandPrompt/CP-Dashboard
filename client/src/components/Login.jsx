@@ -20,8 +20,7 @@ function Login() {
     const [isotp, setIsotp] = useState(false);
     const [isnewpwd, setIsnewpwd] = useState(false);
     const loggined = sessionStorage.getItem("authToken");
-    if(loggined)
-    {
+    if (loggined) {
         return <Navigate to="/"></Navigate>
     }
     const loginHandler = async (e) => {
@@ -30,12 +29,12 @@ function Login() {
         console.log("paswd")
         console.log(pswd);
         console.log("updating password")
-       if(!check){ matchpswd();}
+        if (!check) { matchpswd(); }
         validate();
         console.log("status")
         console.log(check);
         console.log(check1);
-        if ((check && check1) ||  check1) {
+        if ((check && check1) || check1) {
             console.log("login")
             let details = {
                 cf_handle: cf_handle,
@@ -53,7 +52,7 @@ function Login() {
                 console.log(result)
                 var token = result.token;
                 sessionStorage.setItem("authToken", token);
-                sessionStorage.setItem("userName",cf_handle);
+                sessionStorage.setItem("userName", cf_handle);
                 console.log(history);
                 history.pushState({ urlPath: '/login' }, '', "/");
                 window.location.reload();
@@ -70,48 +69,50 @@ function Login() {
         setMouseover(false);
     }
     const fpswd = () => {
-        check1=true;
-        if(cf_handle==""){
-        setTimeout(() => {
-            ReactDOM.render("", document.getElementById("cf_handleE"));
-        }, 5000);
-        check1=false;
-        ReactDOM.render("Please enter your CF handle.", document.getElementById("cf_handleE"));
+        check1 = true;
+        if (cf_handle == "") {
+            setTimeout(() => {
+                ReactDOM.render("", document.getElementById("cf_handleE"));
+            }, 5000);
+            check1 = false;
+            ReactDOM.render("Please enter your CF handle.", document.getElementById("cf_handleE"));
         }
-       // validate();
-        if(check1){
-        check = false;
-        console.log("forget pswd")
-        setIslogin(false);
-        setIsmail(true);}
+        // validate();
+        if (check1) {
+            check = false;
+            console.log("forget pswd")
+            setIslogin(false);
+            setIsmail(true);
+        }
     }
     const rpswd = () => {
         validate();
-        if(check1){
-        console.log("reset pswd")
-        setIsmail(false);
-        setIsotp(true);
-        otp = (Math.floor(900000 * Math.random()) + 100000).toString();
-        console.log(otp);
-        console.log(inst_email);
-        let details = {
-            email: inst_email,
-            message: "OTP for resetting password is " + otp,
-            sub: "CP DashBoard: OTP Verification for Reset Password",
+        if (check1) {
+            console.log("reset pswd")
+            setIsmail(false);
+            setIsotp(true);
+            otp = (Math.floor(900000 * Math.random()) + 100000).toString();
+            console.log(otp);
+            console.log(inst_email);
+            let details = {
+                email: inst_email,
+                message: "OTP for resetting password is " + otp,
+                sub: "CP DashBoard: OTP Verification for Reset Password",
 
-        };
-        fetch("/api/send_email", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify(details),
-        });
-        console.log("mail sent")
-    }}
+            };
+            fetch("/api/send_email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify(details),
+            });
+            console.log("mail sent")
+        }
+    }
     const validateOTP = () => {
         console.log("validating otp")
-        if(instotp==""){
+        if (instotp == "") {
             setTimeout(() => {
                 ReactDOM.render("", document.getElementById("instotpE"));
             }, 5000);
@@ -129,16 +130,17 @@ function Login() {
     };
     const subOTP = () => {
         validate();
-        if(check1){
-        console.log("submit otp")
-        var check = validateOTP();
-        if (check) {
-            setIsotp(false);
-            setIsnewpwd(true);
+        if (check1) {
+            console.log("submit otp")
+            var check = validateOTP();
+            if (check) {
+                setIsotp(false);
+                setIsnewpwd(true);
+            }
+            else {
+                console.log("invalid otp");
+            }
         }
-        else {
-            console.log("invalid otp");
-        }}
     }
     const matchpswd = async () => {
         if (new_password == c_password && new_password != "") {
@@ -197,38 +199,42 @@ function Login() {
         return true;
 
     }
-    const validate=()=>{
-        check1=true;
-        if(islogin){
-        if(cf_handle=="" ){
-        
-            setTimeout(() => {
-                ReactDOM.render("", document.getElementById("cf_handleE"));
-            }, 5000);
-            check1=false;
-            ReactDOM.render("CF handle can not be empty.", document.getElementById("cf_handleE"));
-        }
-        if(password==""){
-            setTimeout(() => {
-                ReactDOM.render("", document.getElementById("passwordE"));
-            }, 5000);
-            check1=false;
-            ReactDOM.render("Password can not be empty.", document.getElementById("passwordE"));
-        }}if(ismail){
-        if(!CheckinstEmail()){
-            check1=false;
-        }}if(isotp){
-        if(!validateOTP() ){check1=false;}}
-        if(isnewpwd){
-        if (!CheckPassword()) { check1 = false; }
-        if (new_password != c_password && CheckPassword() ) {
-            setTimeout(() => {
-                ReactDOM.render("", document.getElementById("c_passwordE"));
-            }, 5000);
-            check1 = false;
-            ReactDOM.render("Confirm password doesn't matches with password.", document.getElementById("c_passwordE"));
+    const validate = () => {
+        check1 = true;
+        if (islogin) {
+            if (cf_handle == "") {
 
-        }}
+                setTimeout(() => {
+                    ReactDOM.render("", document.getElementById("cf_handleE"));
+                }, 5000);
+                check1 = false;
+                ReactDOM.render("CF handle can not be empty.", document.getElementById("cf_handleE"));
+            }
+            if (password == "") {
+                setTimeout(() => {
+                    ReactDOM.render("", document.getElementById("passwordE"));
+                }, 5000);
+                check1 = false;
+                ReactDOM.render("Password can not be empty.", document.getElementById("passwordE"));
+            }
+        } if (ismail) {
+            if (!CheckinstEmail()) {
+                check1 = false;
+            }
+        } if (isotp) {
+            if (!validateOTP()) { check1 = false; }
+        }
+        if (isnewpwd) {
+            if (!CheckPassword()) { check1 = false; }
+            if (new_password != c_password && CheckPassword()) {
+                setTimeout(() => {
+                    ReactDOM.render("", document.getElementById("c_passwordE"));
+                }, 5000);
+                check1 = false;
+                ReactDOM.render("Confirm password doesn't matches with password.", document.getElementById("c_passwordE"));
+
+            }
+        }
 
     }
     return (
@@ -298,7 +304,7 @@ function Login() {
                             onChange={(e) => setInstotp(e.target.value)}
                         />
                     </div> : null}
-                    <div id="instotpE" style={{ fontSize: 14, color: "white" }}></div>
+                <div id="instotpE" style={{ fontSize: 14, color: "white" }}></div>
                 {isotp ?
                     <button
                         onClick={subOTP}
@@ -316,7 +322,7 @@ function Login() {
                                 onChange={(e) => setnewPassword(e.target.value)}
                             />
                         </div> : null}
-                        <div id="n_passwordE" style={{ fontSize: 14, color: "white" }}></div>
+                <div id="n_passwordE" style={{ fontSize: 14, color: "white" }}></div>
                 {isnewpwd ?
                     <div className="input-group">
                         <div id="pwd-text">Confirm Password</div>
@@ -328,7 +334,7 @@ function Login() {
                             onChange={(e) => setcPassword(e.target.value)}
                         />
                     </div> : null}
-                    <div id="c_passwordE" style={{ fontSize: 14, color: "white" }}></div>
+                <div id="c_passwordE" style={{ fontSize: 14, color: "white" }}></div>
                 {isnewpwd ?
                     <button
                         type="submit"
@@ -350,7 +356,7 @@ function Login() {
                 >
                     Login
                 </button> : null}
-                <br /> 
+                <br />
                 {islogin ? <span>
                     Don't have account? <Link className="lreg" to="/register">Register</Link>
                 </span> : null}
@@ -366,5 +372,5 @@ function Login() {
         </div>
     );
 }
-export const userlogged=sessionStorage.getItem("userName");
+export const userlogged = sessionStorage.getItem("userName");
 export default Login;

@@ -23,7 +23,7 @@ function Register() {
     }
     const registerHandler = async (e) => {
         e.preventDefault();
-        console.log("26",show);
+        console.log("26", show);
         check1 = true;
         console.log("Here 27");
         validate();
@@ -95,14 +95,14 @@ function Register() {
             return false;
         }
         const url = "https://codeforces.com/api/user.info?handles=" + cf_handle;
-        const req = await axios.get(url, { 
+        const req = await axios.get(url, {
             headers: {
                 Accept: "application/json",
             }
         });
 
         const data = req.data;
-        if(data["status"]=="FAILED"){
+        if (data["status"] == "FAILED") {
             ReactDOM.render("Invalid CF Handle", document.getElementById("cf_handleE"));
             return false;
         }
@@ -208,13 +208,13 @@ function Register() {
 
             }
             let tp1 = await Checkcf_handle();
-            if (!tp1) { console.log("cfhandle"); check1 = false; return;}
-            tp1 = await ValidatecfEmail(); 
-            if (!tp1) { check1 = false; return;}
-            tp1 = await CheckinstEmail(); 
-            if (!tp1) { check1 = false; return;}
-            tp1 = await CheckPassword(); 
-            if (!tp1) { check1 = false; return;}
+            if (!tp1) { console.log("cfhandle"); check1 = false; return; }
+            tp1 = await ValidatecfEmail();
+            if (!tp1) { check1 = false; return; }
+            tp1 = await CheckinstEmail();
+            if (!tp1) { check1 = false; return; }
+            tp1 = await CheckPassword();
+            if (!tp1) { check1 = false; return; }
             console.log("225 ", check1);
         }
         else {
@@ -398,7 +398,7 @@ function Register() {
                     onClick={OTPgen}
                     id="signup"
                 >
-                Register
+                    Register
                 </button> : null}
                 {show ? <button
                     type="submit"

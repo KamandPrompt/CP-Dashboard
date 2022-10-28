@@ -8,25 +8,21 @@ function Admin() {
 
     const loginHandler = async (e) => {
         e.preventDefault();
-        if(user_name === 'CP-Dashboard' && password==='A@12345')
-        {
+        if (user_name === 'CP-Dashboard' && password === 'A@12345') {
             const result = await fetch("/update_contests", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
             }).then((res) => res.json());
-            if(result.status === 'ok')
-            {
+            if (result.status === 'ok') {
                 alert("Updated successfully");
             }
-            else
-            {
+            else {
                 alert("Some error is there");
             }
         }
-        else
-        {
+        else {
             alert("Invalid Credentials");
         }
     }
