@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import { TailSpin } from  'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner'
 class LeaderBoard extends React.Component {
     constructor(props) {
         super(props);
@@ -27,16 +27,14 @@ class LeaderBoard extends React.Component {
     render() {
 
         const { DataisLoaded, users_data } = this.state;
-        function logout()
-        {
+        function logout() {
             sessionStorage.clear();
-            history.pushState('','','/login')
+            history.pushState('', '', '/login')
             window.location.reload();
         }
-        if (!DataisLoaded)
-        {
-            return(
-                <div style={{marginTop:'45vh',marginLeft:'45vw'}}>
+        if (!DataisLoaded) {
+            return (
+                <div style={{ marginTop: '45vh', marginLeft: '45vw' }}>
                     <TailSpin
                         heigth="10vh"
                         width="10vw"
@@ -53,7 +51,7 @@ class LeaderBoard extends React.Component {
                     <nav>
                         <a href="">LeaderBoard</a>
                         <a href="/PrevStandings">Contests Standings</a>
-                        <a className="logout-button" 
+                        <a className="logout-button"
                             onClick={logout}
                         >Logout</a>
                         <div class="animation start-home"></div>
@@ -88,138 +86,138 @@ class LeaderBoard extends React.Component {
                             </thead>
                             <tbody>
                                 {users_data.map(user => {
-                                    if (user.cf_handle == sessionStorage.getItem("userName")){
-                                        if(user.curr_rating < 1200)
-                                        return <tr class='active' id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1200'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>
-                                        else if(user.curr_rating < 1400)
-                                        return <tr class='active' id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1400'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr> 
-                                        else if(user.curr_rating < 1600)
-                                        return <tr class='active' id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1600'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>
-                                        else if(user.curr_rating < 1900)
-                                        return <tr class='active' id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1900'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>    
-                                        else if(user.curr_rating < 2200)
-                                        return <tr class='active' id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2200'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr> 
-                                        else if(user.curr_rating < 2400)
-                                        return <tr class='active' id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2400'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>    
-                                        else 
-                                        return <tr class='active' id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2901'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>    
-                                               
-                                    }
-                                    else{
-                                        if(user.curr_rating < 1200)
-                                        return <tr id={user.cf_handle}>
-                                            <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1200'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>
-                                        else if(user.curr_rating < 1400)
-                                        return <tr id={user.cf_handle}>
-                                            <td><a class='user1400' href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" >{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr> 
-                                        else if(user.curr_rating < 1600)
-                                        return <tr id={user.cf_handle}>
-                                            <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1600'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>
-                                        else if(user.curr_rating < 1900)
-                                        return <tr id={user.cf_handle}>
-                                            <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1900'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>    
-                                        else if(user.curr_rating < 2200)
-                                        return <tr id={user.cf_handle}>
-                                            <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2200'>{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>       
-                                        else if(user.curr_rating < 2400)
-                                        return <tr id={user.cf_handle}>
-                                            <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} class='user2400' target="_blank">{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr>  
+                                    if (user.cf_handle == sessionStorage.getItem("userName")) {
+                                        if (user.curr_rating < 1200)
+                                            return <tr class='active' id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1200'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 1400)
+                                            return <tr class='active' id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1400'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 1600)
+                                            return <tr class='active' id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1600'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 1900)
+                                            return <tr class='active' id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1900'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 2200)
+                                            return <tr class='active' id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2200'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 2400)
+                                            return <tr class='active' id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2400'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
                                         else
-                                        return <tr id={user.cf_handle}>
-                                            <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} class='user2901' target="_blank">{user.cf_handle}</a></td>
-                                            <td>{user.batch}</td>
-                                            <td>{user.num_of_questions}</td>
-                                            <td>{user.num_of_contests}</td>
-                                            <td>{user.max_rating}</td>
-                                            <td>{user.curr_rating}</td>
-                                        </tr> 
+                                            return <tr class='active' id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2901'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+
                                     }
-                                        
+                                    else {
+                                        if (user.curr_rating < 1200)
+                                            return <tr id={user.cf_handle}>
+                                                <td><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1200'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 1400)
+                                            return <tr id={user.cf_handle}>
+                                                <td><a class='user1400' href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" >{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 1600)
+                                            return <tr id={user.cf_handle}>
+                                                <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1600'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 1900)
+                                            return <tr id={user.cf_handle}>
+                                                <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user1900'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 2200)
+                                            return <tr id={user.cf_handle}>
+                                                <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} target="_blank" class='user2200'>{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else if (user.curr_rating < 2400)
+                                            return <tr id={user.cf_handle}>
+                                                <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} class='user2400' target="_blank">{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                        else
+                                            return <tr id={user.cf_handle}>
+                                                <td ><a href={'https://codeforces.com/profile/' + user.cf_handle} class='user2901' target="_blank">{user.cf_handle}</a></td>
+                                                <td>{user.batch}</td>
+                                                <td>{user.num_of_questions}</td>
+                                                <td>{user.num_of_contests}</td>
+                                                <td>{user.max_rating}</td>
+                                                <td>{user.curr_rating}</td>
+                                            </tr>
+                                    }
+
                                 })}
                             </tbody>
                         </table>

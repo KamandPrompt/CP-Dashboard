@@ -55,7 +55,7 @@ const userContestSchema = new mongoose.Schema(
 		participants: [
 			{
 				cf_handle: { type: String, required: true, uniqueItems: true },
-				batch : {type :String ,required:true},
+				batch: { type: String, required: true },
 				rank: { type: Number, required: true },
 				oldRating: { type: Number, required: true },
 				newRating: { type: Number, required: true }
@@ -217,7 +217,7 @@ app.post('/api/register', async (req, res) => {
 			// duplicate key
 			return res.json({ status: 'error', error: 'CF Handle already in use' })
 		}
-		return res.json({status :'error',error:error});
+		return res.json({ status: 'error', error: error });
 	}
 	for (var i = 0; i < contests_array.length; i++) {
 		const contest_id = contests_array[i].contestId;
@@ -226,7 +226,7 @@ app.post('/api/register', async (req, res) => {
 		if (!contest) {
 			const participants = [{
 				cf_handle: cf_handle,
-				batch : batch,
+				batch: batch,
 				rank: contests_array[i].rank,
 				oldRating: contests_array[i].oldRating,
 				newRating: contests_array[i].newRating,
@@ -246,7 +246,7 @@ app.post('/api/register', async (req, res) => {
 		else {
 			const participants = {
 				cf_handle: cf_handle,
-				batch:batch,
+				batch: batch,
 				rank: contests_array[i].rank,
 				oldRating: contests_array[i].oldRating,
 				newRating: contests_array[i].newRating,
@@ -266,7 +266,8 @@ app.post('/api/cf_handle_check', async (req, res) => {
 	const user = await User.findOne({ cf_handle }).lean();
 	if (user) {
 		return res.json({ status: 'error', error: 'CF Handle already in use' });
-	}}
+	}
+}
 );
 
 const otpEmail = nodemailer.createTransport({
@@ -397,10 +398,9 @@ app.post("/update_contests", async (req, res) => {
 				user.max_rating = max_rating;
 				check = true;
 			}
-			if(user.curr_rating !== response.data.result[0].rating)
-			{
+			if (user.curr_rating !== response.data.result[0].rating) {
 				user.curr_rating = response.data.result[0].rating;
-				check=true;
+				check = true;
 			}
 			if (response2.data.result.length >= user.num_of_contests) {
 				let all_user_contests = response2.data.result;
@@ -419,7 +419,7 @@ app.post("/update_contests", async (req, res) => {
 						if (contest.length === 0) {
 							const participants = [{
 								cf_handle: user.cf_handle,
-								batch : user.batch,
+								batch: user.batch,
 								rank: all_user_contests[i].rank,
 								oldRating: all_user_contests[i].oldRating,
 								newRating: all_user_contests[i].newRating,
@@ -438,7 +438,7 @@ app.post("/update_contests", async (req, res) => {
 						else {
 							const participants = {
 								cf_handle: user.cf_handle,
-								batch : user.batch,
+								batch: user.batch,
 								rank: all_user_contests[i].rank,
 								oldRating: all_user_contests[i].oldRating,
 								newRating: all_user_contests[i].newRating,
@@ -467,7 +467,7 @@ app.post("/update_contests", async (req, res) => {
 				await User.findOneAndUpdate({ cf_handle: user.cf_handle }, {
 					num_of_contests: user.num_of_contests,
 					max_rating: user.max_rating,
-					curr_rating : user.curr_rating
+					curr_rating: user.curr_rating
 				});
 			}
 		} catch (error) {
@@ -541,12 +541,11 @@ async function fetchDetails() {
 
 fetchDetails();
 setInterval(fetchDetails, 1000 * 60 * 60);
-if(process.env.NODE_ENV === 'production') 
-{
+if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname, "client", "build")))
 
-	app.get('*',(req, res) => {
-		res.sendFile(path.join(__dirname,'client','build','index.html'));
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 	});
 }
 // Hosting it
